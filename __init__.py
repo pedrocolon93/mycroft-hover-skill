@@ -22,10 +22,10 @@ class HoverSkill(MycroftSkill):
         super(HoverSkill, self).__init__(name="HoverSkill")
         
         # Initialize working variables used within the skill.
-        self.count = 0
-        self.item = ""
-        self.information = ""
-        self.additional = ""
+        # self.count = 0
+        # self.item = ""
+        # self.information = ""
+        # self.additional = ""
 
     # The "handle_xxxx_intent" function is triggered by Mycroft when the
     # skill's intent is matched.  The intent is defined by the IntentBuilder()
@@ -42,13 +42,13 @@ class HoverSkill(MycroftSkill):
     def handle_hello_world_intent(self, message):
         LOG.debug("Message")
         LOG.debug(message)
-        self.item = "Potato"
-        self.information = "really big"
-        self.additional = "can be fried"
+        item = "Potato"
+        information = "really big"
+        additional = "can be fried"
         # In this case, respond by simply speaking a canned response.
         # Mycroft will randomly speak one of the lines from the file
         #    dialogs/en-us/hello.world.dialog
-        self.speak_dialog("hover.info")
+        self.speak_dialog("hover.info", data={"item": item,"information":information,"additional":additional})
 
     # The "stop" method defines what Mycroft does when told to stop during
     # the skill's execution. In this case, since the skill's functionality
