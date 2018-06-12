@@ -70,7 +70,7 @@ class HoverSkill(MycroftSkill):
         def yesnofail(utterance):
             return "Please only say yes or no"
         LOG.info(type(message))
-        res = self.get_response("hover.registerconfirm",data={"object":message},
+        res = self.get_response("hover.registerconfirm",data={"object":str(message)},
                                 validator=yesnovalidation,on_fail=yesnofail,num_retries=1)
         if "yes" in res:
             #handleyes
