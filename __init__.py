@@ -64,6 +64,7 @@ class HoverSkill(MycroftSkill):
     def handle_put_intent(self, message):
         LOG.info("Registering")
         LOG.info(message)
+        LOG.info(message.utterance)
         # res = self.speak_dialog("hover.registerconfirm",data={"object":message},expect_response=True)
         def yesnovalidation(utternance):
             return "yes" in utternance or "no" in utternance
