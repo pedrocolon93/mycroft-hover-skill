@@ -31,47 +31,6 @@ class HoverSkill(MycroftSkill):
             "item_additional":[],
             "item_extra":[]
         }
-        testitem = self.empty_item.copy()
-        testitem["item_name"]='potato'
-        testitem["item_locations"].append("home")
-        testitem["item_info"] = "this is a tato"
-        testitem["item_additional"].append("IDK")
-        self.db.insert(testitem)
-        testitem = self.empty_item.copy()
-        testitem["item_name"] = 'matita'
-        testitem["item_locations"].append("home")
-        testitem["item_info"] = "this is a tato"
-        testitem["item_additional"].append("IDK")
-        self.db.insert(testitem)
-        testitem = self.empty_item.copy()
-        testitem["item_name"] = 'lacoste'
-        testitem["item_locations"].append("home")
-        testitem["item_info"] = "this is a tato"
-        testitem["item_additional"].append("IDK")
-        self.db.insert(testitem)
-        testitem = self.empty_item.copy()
-        testitem["item_name"] = 'cuadro'
-        testitem["item_locations"].append("home")
-        testitem["item_info"] = "this is a tato"
-        testitem["item_additional"].append("IDK")
-        self.db.insert(testitem)
-        testitem = self.empty_item.copy()
-        testitem["item_name"] = 'uniteddreams'
-        testitem["item_locations"].append("home")
-        testitem["item_info"] = "this is a tato"
-        testitem["item_additional"].append("IDK")
-        self.db.insert(testitem)
-        testitem = self.empty_item.copy()
-        testitem["item_name"] = 'curve'
-        testitem["item_locations"].append("home")
-        testitem["item_info"] = "this is a tato"
-        testitem["item_additional"].append("IDK")
-        self.db.insert(testitem)
-        # Initialize working variables used within the skill.
-        # self.count = 0
-        # self.item = ""
-        # self.information = ""
-        # self.additional = ""
 
     # The "handle_xxxx_intent" function is triggered by Mycroft when the
     # skill's intent is matched.  The intent is defined by the IntentBuilder()
@@ -85,7 +44,7 @@ class HoverSkill(MycroftSkill):
     #   'Howdy you great big world'
     #   'Greetings planet earth'
     @intent_handler(IntentBuilder("HoverGetIntent").require("hover_get"))
-    def handle_hello_world_intent(self, message):
+    def handle_get_intent(self, message):
         LOG.debug("Message")
         LOG.debug(message)
         Item = Query()
@@ -100,6 +59,15 @@ class HoverSkill(MycroftSkill):
             self.speak_dialog("hover.info",data={"item":topres["item_name"],
                                                  "information":topres["item_info"],
                                                  "additional":topres["item_additional"][0] or "no additional info"})
+
+    @intent_handler(IntentBuilder("HoverPutIntent").require("hover_put"))
+    def handle_put_intent(self, message):
+        LOG.debug("Registering")
+        LOG.debug(message)
+        res = self.speak_dialog("hover.registerconfirm",data={"item":message},expect_response=True)
+        LOG.debug(res)
+        print(res)
+        print("Potato")
 
 
     # The "stop" method defines what Mycroft does when told to stop during
