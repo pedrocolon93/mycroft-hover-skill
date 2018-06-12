@@ -62,22 +62,31 @@ class HoverSkill(MycroftSkill):
 
     @intent_handler(IntentBuilder("HoverPutIntent").require("hover_put"))
     def handle_put_intent(self, message):
-        LOG.debug("Registering")
-        LOG.debug(message)
+        LOG.info("Registering")
+        LOG.info(message)
         # res = self.speak_dialog("hover.registerconfirm",data={"object":message},expect_response=True)
         def yesnovalidation(utternance):
             return "yes" in utternance or "no" in utternance
         def yesnofail(utterance):
             return "Please only say yes or no"
+        LOG.info(type(message))
         res = self.get_response("hover.registerconfirm",data={"object":message},
                                 validator=yesnovalidation,on_fail=yesnofail,num_retries=1)
         if "yes" in res:
             #handleyes
-            print("Yes")
+            def infovalidation(utternance):
+                return True
+
+            def infofail(utterance):
+                return "Please restart the registration process..."
+
+            res = self.get_response("hover.registerconfirm", data={"object": message},
+                                    validator=infovalidation, on_fail=infofail, num_retries=1)
+
         else:
             self.speak("Sorry, please try to register again")
 
-        LOG.debug(res)
+        LOG.info(res)
         print(res)
         print("Potato")
 
