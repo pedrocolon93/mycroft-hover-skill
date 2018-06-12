@@ -64,7 +64,7 @@ class HoverSkill(MycroftSkill):
     def handle_put_intent(self, message):
         LOG.debug("Registering")
         LOG.debug(message)
-        res = self.speak_dialog("hover.registerconfirm",data={"item":message},expect_response=True)
+        res = self.speak_dialog("hover.registerconfirm",data={"object":message},expect_response=True)
         LOG.debug(res)
         print(res)
         print("Potato")
