@@ -8,6 +8,7 @@
 # when the skill gets installed later by a user.
 
 from adapt.intent import IntentBuilder
+from mycroft import Message
 from mycroft.skills.core import MycroftSkill, intent_handler
 from mycroft.util.log import LOG
 from tinydb import TinyDB, Query
@@ -62,15 +63,18 @@ class HoverSkill(MycroftSkill):
 
     @intent_handler(IntentBuilder("HoverPutIntent").require("hover_put"))
     def handle_put_intent(self, message):
-        LOG.info("Registering")
-        LOG.info(message.data)
+        LOG.info("Starting registration")
+
         objectname = message.data["utterance"]
-        # res = self.speak_dialog("hover.registerconfirm",data={"object":message},expect_response=True)
+        Message("hover_put",data={
+            ""
+        })
+
+
         def yesnovalidation(utternance):
             return "yes" in utternance or "no" in utternance
         def yesnofail(utterance):
             return "Please only say yes or no"
-        LOG.info(type(message))
         res = self.get_response("hover.registerconfirm",data={"object":objectname},
                                 validator=yesnovalidation,on_fail=yesnofail,num_retries=1)
         if "yes" in res:
@@ -85,11 +89,9 @@ class HoverSkill(MycroftSkill):
                                     )
 
         else:
-            self.speak("Sorry, please try to register again")
+            self.speak("Ok!")
 
-        LOG.info(res)
-        print(res)
-        print("Potato")
+        LOG.info("Registration finished")
 
 
     # The "stop" method defines what Mycroft does when told to stop during
