@@ -43,20 +43,24 @@ class HoverSkill(MycroftSkill):
     #   'Greetings planet earth'
     @intent_handler(IntentBuilder("HoverGetIntent").require("hover_get"))
     def handle_get_intent(self, message):
-        LOG.debug("Message")
-        LOG.debug(message)
-        Item = Query()
-        res = self.db.search(Item.item_name == message)
-        if len(res) == 0:
-            item = "No item found"
-            information = "no info"
-            additional = "no additional info"
+        LOG.info("Doing a get")
+        LOG.info(message)
+        objectname = message.data["utterance"].split()[1]
+        try:
+            classinfo = Query()
+            res = self.db.search(classinfo.classname == objectname)
+            if len(res) == 0:
+                self.speak("Sorry, I don't know what that is")
+                return
+            item = objectname
+            information = res[0]["info"]
+            additional = ""
+            # In this case, respond by simply speaking a canned response.
+            # Mycroft will randomly speak one of the lines from the file
+            #    dialogs/en-us/hello.world.dialog
             self.speak_dialog("hover.info", data={"item": item, "information": information, "additional": additional})
-        else:
-            topres = res[0]
-            self.speak_dialog("hover.info",data={"item":topres["item_name"],
-                                                 "information":topres["item_info"],
-                                                 "additional":topres["item_additional"][0] or "no additional info"})
+        except:
+            self.speak("Sorry, I don't know what that is")
 
     @intent_handler(IntentBuilder("HoverPutIntent").require("hover_put"))
     def handle_put_intent(self, message):
@@ -108,26 +112,6 @@ class HoverSkill(MycroftSkill):
         self.speak_dialog("ok")
         return False
 
-    @intent_handler(IntentBuilder("HoverAddIntent").require("hover"))
-    def handle_hello_world_intent(self, message):
-        LOG.debug("Message")
-        LOG.debug(message)
-        objectname = message.data["utterance"].split()[1]
-        try:
-            classinfo = Query()
-            res = self.db.search(classinfo.classname == objectname)
-            if len(res) == 0:
-                self.speak("Sorry, I don't know what that is")
-                return
-            item = objectname
-            information = res[0]["info"]
-            additional = ""
-            # In this case, respond by simply speaking a canned response.
-            # Mycroft will randomly speak one of the lines from the file
-            #    dialogs/en-us/hello.world.dialog
-            self.speak_dialog("hover.info", data={"item": item, "information": information, "additional": additional})
-        except:
-            self.speak("Sorry, I don't know what that is")
 
 # The "create_skill()" method is used to create an instance of the skill.
 # Note that it's outside the class itself.
