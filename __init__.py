@@ -6,6 +6,7 @@
 # libraries.  If you use an external library, be sure to include it
 # in the requirements.txt file so the library is installed properly
 # when the skill gets installed later by a user.
+import os
 
 from adapt.intent import IntentBuilder
 from mycroft import Message
@@ -29,6 +30,8 @@ class HoverSkill(MycroftSkill):
             "match_amount":0,
             "info":""
         }
+        LOG.info("Working in...")
+        LOG.info(os.path.abspath("."))
 
     # The "handle_xxxx_intent" function is triggered by Mycroft when the
     # skill's intent is matched.  The intent is defined by the IntentBuilder()
