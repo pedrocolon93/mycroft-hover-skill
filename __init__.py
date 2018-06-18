@@ -91,7 +91,7 @@ class HoverSkill(MycroftSkill):
 
             self.db.insert(data)
             self.speak("Registration completed")
-            
+
         else:
             self.speak("Alright")
 
@@ -112,14 +112,22 @@ class HoverSkill(MycroftSkill):
     def handle_hello_world_intent(self, message):
         LOG.debug("Message")
         LOG.debug(message)
-
-        item = "Potato"
-        information = "really big"
-        additional = "can be fried"
-        # In this case, respond by simply speaking a canned response.
-        # Mycroft will randomly speak one of the lines from the file
-        #    dialogs/en-us/hello.world.dialog
-        self.speak_dialog("hover.info", data={"item": item, "information": information, "additional": additional})
+        objectname = message.data["utterance"].split()[1]
+        try:
+            classinfo = Query()
+            res = self.db.search(classinfo.classname == objectname)
+            if len(res) == 0:
+                self.speak("Sorry, I don't know what that is")
+                return
+            item = objectname
+            information = res[0]["info"]
+            additional = ""
+            # In this case, respond by simply speaking a canned response.
+            # Mycroft will randomly speak one of the lines from the file
+            #    dialogs/en-us/hello.world.dialog
+            self.speak_dialog("hover.info", data={"item": item, "information": information, "additional": additional})
+        except:
+            self.speak("Sorry, I don't know what that is")
 
 # The "create_skill()" method is used to create an instance of the skill.
 # Note that it's outside the class itself.
