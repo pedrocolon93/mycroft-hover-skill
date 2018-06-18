@@ -24,13 +24,10 @@ class HoverSkill(MycroftSkill):
         super(HoverSkill, self).__init__(name="HoverSkill")
         self.db = TinyDB('db.json')
         self.empty_item = {
-            "item_name":"",
-            "item_locations":[],
-            "item_match_amount":0,
-            "item_info":"",
-            "item_data":[],
-            "item_additional":[],
-            "item_extra":[]
+            "classname":"",
+            "locations":[],
+            "match_amount":0,
+            "info":""
         }
 
     # The "handle_xxxx_intent" function is triggered by Mycroft when the
@@ -65,12 +62,12 @@ class HoverSkill(MycroftSkill):
     def handle_put_intent(self, message):
         LOG.info("Starting registration")
 
-        objectname = message.data["utterance"]
-        Message("hover_put",data={
-            ""
+        objectname = message.data["utterance"].split()[1]
+        
+        testmessage = Message("hover_put",data={
+            "fuck":"me"
         })
-
-
+        #Handlers
         def yesnovalidation(utternance):
             return "yes" in utternance or "no" in utternance
         def yesnofail(utterance):
@@ -85,11 +82,18 @@ class HoverSkill(MycroftSkill):
             def infofail(utterance):
                 return "Please restart the registration process..."
 
-            res = self.get_response("hover.requestinfo", data={"item": objectname}
-                                    )
+            objectinformation = self.get_response("hover.requestinfo", data={"item": objectname})
 
+            data = self.empty_item.copy()
+
+            data["classname"] = objectname
+            data["info"] = objectinformation
+
+            self.db.insert(data)
+            self.speak("Registration completed")
+            
         else:
-            self.speak("Ok!")
+            self.speak("Alright")
 
         LOG.info("Registration finished")
 
