@@ -67,12 +67,12 @@ class HoverSkill(MycroftSkill):
             self.emitter.emit(testmessage)
 
         except:
-            self.speak("Sorry, I don't know what that is")
             testmessage = Message("hover_get", data={
                 "status": "fail",
                 "error": "No matches"
             })
             self.emitter.emit(testmessage)
+            self.speak("Sorry, I don't know what that is")
 
     @intent_handler(IntentBuilder("HoverPutIntent").require("hover_put"))
     def handle_put_intent(self, message):
