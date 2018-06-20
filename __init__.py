@@ -58,12 +58,21 @@ class HoverSkill(MycroftSkill):
             item = objectname
             information = res[0]["info"]
             additional = ""
-            # In this case, respond by simply speaking a canned response.
-            # Mycroft will randomly speak one of the lines from the file
-            #    dialogs/en-us/hello.world.dialog
             self.speak_dialog("hover.info", data={"item": item, "information": information, "additional": additional})
+
+            testmessage = Message("hover_get", data={
+                "status": "success",
+                "error": ""
+            })
+            self.emitter.emit(testmessage)
+
         except:
             self.speak("Sorry, I don't know what that is")
+            testmessage = Message("hover_get", data={
+                "status": "fail",
+                "error": "No matches"
+            })
+            self.emitter.emit(testmessage)
 
     @intent_handler(IntentBuilder("HoverPutIntent").require("hover_put"))
     def handle_put_intent(self, message):
@@ -71,9 +80,7 @@ class HoverSkill(MycroftSkill):
 
         objectname = message.data["utterance"].split()[1]
         
-        testmessage = Message("hover_put",data={
-            "fuck":"me"
-        })
+
         #Handlers
         def yesnovalidation(utternance):
             return "yes" in utternance or "no" in utternance
@@ -98,9 +105,17 @@ class HoverSkill(MycroftSkill):
 
             self.db.insert(data)
             self.speak("Registration completed")
-
+            testmessage = Message("hover_put", data={
+                "status": "success",
+                "error": ""
+            })
+            self.emitter.emit(testmessage)
         else:
             self.speak("Alright")
+            testmessage = Message("hover_put", data={
+                "status": "success",
+                "error": "user cancelled"
+            })
 
         LOG.info("Registration finished")
 
@@ -112,7 +127,7 @@ class HoverSkill(MycroftSkill):
     # it.
     #
     def stop(self):
-        self.speak_dialog("ok")
+        self.speak_dialog("Stopping Hover skill")
         return False
 
 
