@@ -32,6 +32,7 @@ class HoverSkill(MycroftSkill):
         }
         LOG.info("Working in...")
         LOG.info(os.path.abspath("."))
+        LOG.info("HOVER STARTED")
 
     # The "handle_xxxx_intent" function is triggered by Mycroft when the
     # skill's intent is matched.  The intent is defined by the IntentBuilder()
@@ -83,8 +84,8 @@ class HoverSkill(MycroftSkill):
     def handle_put_intent(self, message):
         LOG.info("Starting registration")
 
-        objectname = message.data["utterance"].split()[1]
-        
+        # objectname = message.data["utterance"].split()[1]
+        objectname = self.get_response("hover.registerobjectname")
 
         #Handlers
         def yesnovalidation(utternance):
@@ -99,6 +100,11 @@ class HoverSkill(MycroftSkill):
                 return True
 
             def infofail(utterance):
+                testmessage = Message("hover_put", data={
+                    "status": "fail",
+                    "error": "No in confirmation."
+                })
+                self.emitter.emit(testmessage)
                 return "Please restart the registration process..."
 
             objectinformation = self.get_response("hover.requestinfo", data={"item": objectname})
