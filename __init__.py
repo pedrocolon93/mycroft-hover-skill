@@ -54,6 +54,11 @@ class HoverSkill(MycroftSkill):
             res = self.db.search(classinfo.classname == objectname)
             if len(res) == 0:
                 self.speak("Sorry, I don't know what that is")
+                testmessage = Message("hover_get", data={
+                    "status": "success",
+                    "error": ""
+                })
+                self.emitter.emit(testmessage)
                 return
             item = objectname
             information = res[0]["info"]
