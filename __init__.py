@@ -63,7 +63,8 @@ class HoverSkill(MycroftSkill):
         self.db.insert({'classname': "visualrejects",
                    'info': 'This is a box from a gold mine in Black Hawk city in Colorado that was used to hold '
                            'the samples that needed further inspection.'})
-
+        self.db.insert({'classname': "lubriderm",
+                   'info': 'This is moisturizer for the upcoming winter.'})
         # Add visual rejects box
         self.db.insert({'classname': "washing",
                    'info': 'This is an model of an early washing machine patent. In the 1800s, models were required when '
