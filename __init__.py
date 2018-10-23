@@ -30,6 +30,49 @@ class HoverSkill(MycroftSkill):
             "match_amount":0,
             "info":""
         }
+	    self.db.insert({'classname': "ball",
+                        'info': 'This is a collection of metal balls from ball bearings held together'
+                                'with a magnet.'})
+
+        #Add tibetan bowl
+        self.db.insert({'classname': "bowl",
+                   'info': 'This is a Tibetan singing bowl. '
+                           'It can be played by rotating a mallet around the '
+                           'outside rim to produce a sustained musical note.'})
+        #Add coffee machine
+        self.db.insert({'classname': "coffee",
+                   'info': 'This is a drip coffee machine. '
+                           'It can make a quick cup of coffee.'})
+
+        self.db.insert({'classname': "jager",
+                        'info': 'This is a bottle of Jager Maester liquor. It is'
+                                'made from 56 spices.'})
+
+        #Add pinecone
+        self.db.insert({'classname': "pinecone",
+                       'info': 'This is a pine cone from a Sugar Pine.  The worlds largest breed of'
+                               'pine tree.'})
+        # Add spectrometer
+        self.db.insert({'classname': "spectrometer01",
+                   'info': 'This is a Tektronix 1L20 spectrum analyzer plug-in'})
+        # Add stanley
+        self.db.insert({'classname': "stanley01",
+                   'info': 'This is a Stanley 45 combination plane. It is a woodworking '
+                           'tool used to make fine fittings such as those used for doors.'})
+        # Add visual rejects box
+        self.db.insert({'classname': "visualrejects01",
+                   'info': 'This is a box from a gold mine in Black Hawk city in Colorado that was used to hold '
+                           'the samples that needed further inspection.'})
+
+        # Add visual rejects box
+        self.db.insert({'classname': "washing01",
+                   'info': 'This is an model of an early washing machine patent. In the 1800s, models were required when '
+                           'submitting for a patent in the US.'})
+        #
+        self.db.insert({'classname': "snacks",
+                        'info': 'This is a box that had complementary snacks.'})
+        self.db.insert({'classname': "pusheen01",
+                        'info': 'A fat cute cat in an easter egg.'})
         LOG.info("Working in...")
         LOG.info(os.path.abspath("."))
         LOG.info("HOVER STARTED")
