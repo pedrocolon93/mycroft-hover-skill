@@ -103,7 +103,7 @@ class HoverSkill(MycroftSkill):
                     "status": "success",
                     "error": ""
                 })
-                self.emitter.emit(testmessage)
+                self.bus.emit(testmessage)
                 return
             item = objectname
             information = res[0]["info"]
@@ -114,14 +114,14 @@ class HoverSkill(MycroftSkill):
                 "status": "success",
                 "error": ""
             })
-            self.emitter.emit(testmessage)
+            self.bus.emit(testmessage)
 
         except:
             testmessage = Message("hover_get", data={
                 "status": "fail",
                 "error": "No matches"
             })
-            self.emitter.emit(testmessage)
+            self.bus.emit(testmessage)
             self.speak("Sorry, I don't know what that is")
 
     @intent_handler(IntentBuilder("HoverPutIntent").require("hover_put"))
@@ -148,7 +148,7 @@ class HoverSkill(MycroftSkill):
                     "status": "fail",
                     "error": "No in confirmation."
                 })
-                self.emitter.emit(testmessage)
+                self.bus.emit(testmessage)
                 return "Please restart the registration process..."
 
             objectinformation = self.get_response("hover.requestinfo", data={"item": objectname})
@@ -164,7 +164,7 @@ class HoverSkill(MycroftSkill):
                 "status": "success",
                 "error": ""
             })
-            self.emitter.emit(testmessage)
+            self.bus.emit(testmessage)
         else:
             self.speak("Alright")
             testmessage = Message("hover_put", data={
